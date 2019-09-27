@@ -2,8 +2,8 @@
   "name": "fints-api",
   "version": "1.0.0",
   "description": "A FinTS/HBCI API based on fints npm module, implemented in typescript",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "./lub/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "postinstall": "npm run build",
     "generate": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
