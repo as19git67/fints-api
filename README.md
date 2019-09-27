@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/fints-api.svg)](https://www.npmjs.com/package/fints-api)
 
-A client library for communicating with [FinTS servers](https://www.hbci-zka.de/).
+A client library for communicating with banks using their [FinTS](https://www.hbci-zka.de/) interface.
 
 Based on  [nodejs-fints](https://github.com/guidoMueller/nodejs-fints) and enhanced to work after the banks changed
 their implementations for SCA to be compliant with PSD2.
