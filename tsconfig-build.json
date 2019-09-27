@@ -12,6 +12,6 @@
     "rootDir": "lib"
   },
   "exclude": [
-    "**/__tests__/*"
+    "**/test/*"
   ]
 }
