@@ -5,19 +5,19 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "prepublish": "tsc -p ./tsconfig-build.json",
+    "postinstall": "npm run build",
     "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
     "build": "tsc -p ./tsconfig-build.json",
     "clean": "rm -rf dist"
   },
   "keywords": [
     "fints",
-    "hbci"
+    "hbci",
+    "banking"
   ],
   "author": "Anton Schegg",
   "license": "MIT",
   "devDependencies": {
-    "cxsd": "^0.1.1",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   },
