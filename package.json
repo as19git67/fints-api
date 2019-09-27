@@ -1,0 +1,31 @@
+{
+  "name": "fints-api",
+  "version": "1.0.0",
+  "description": "A FinTS/HBCI API based on fints npm module, implemented in typescript",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "prepublish": "tsc -p ./tsconfig-build.json",
+    "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
+    "build": "tsc -p ./tsconfig-build.json",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "fints",
+    "hbci"
+  ],
+  "author": "Anton Schegg",
+  "license": "MIT",
+  "devDependencies": {
+    "cxsd": "^0.1.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "date-fns": "^2.3.0",
+    "fast-xml-parser": "^3.12.20",
+    "iconv-lite": "^0.5.0",
+    "mt940-js": "^0.6.0",
+    "winston": "^3.2.1"
+  }
+}

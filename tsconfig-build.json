@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "lib": ["es7", "dom"],
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "rootDir": "lib"
+  },
+  "exclude": [
+    "**/__tests__/*"
+  ]
+}

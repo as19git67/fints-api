@@ -1,0 +1,15 @@
+export declare const COUNTRY_CODE = 280;
+export declare const SYNC_MODE_NEW_CUSTOMER_ID = 0;
+export declare const SYNC_MODE_LAST_MSG_NUMBER = 1;
+export declare const SYNC_MODE_SIGNATURE_ID = 2;
+export declare const LANG_DE = 1;
+export declare const LANG_EN = 2;
+export declare const LANG_FR = 3;
+export declare const PRODUCT_NAME = "fints";
+export declare const PRODUCT_VERSION = "0.1";
+export declare const HEADER_LENGTH = 29;
+export declare const SECURITY_FUNCTION = "999";
+export declare const SECURITY_BOUNDARY = 1;
+export declare const SECURITY_SUPPLIER_ROLE = 1;
+export declare const COMPRESSION_NONE = 0;
+export declare const HBCI_VERSION = 300;
