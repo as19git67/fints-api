@@ -1,6 +1,7 @@
+.idea/
 /cache/
 /generated/
 /node_modules/
 **/*.js
 **/*.js.map
-.idea/
+**/*.d.ts
