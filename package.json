@@ -2,7 +2,7 @@
   "name": "fints-api",
   "version": "1.0.0",
   "description": "A FinTS/HBCI API based on fints npm module, implemented in typescript",
-  "main": "./lub/index.js",
+  "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "postinstall": "npm run build",
