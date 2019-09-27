@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "postinstall": "npm run build",
-    "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
+    "generate": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
     "build": "tsc -p ./tsconfig-build.json",
     "clean": "rm -rf dist"
   },
