@@ -1,4 +1,4 @@
-import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HNVSD, HISPAS, HKKAZ } from "./segments";
+import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HNVSD, HISPAS, HIUPD } from "./segments";
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
 import { Request } from "./request";
@@ -142,8 +142,8 @@ export class Response {
      * Will assemble a list of all supported transactions.
      */
     public get transactionTypes(): string[] {
-        const segs = this.findSegments(HKKAZ);
-        console.log(JSON.stringify(segs));
+        const seg = this.findSegment(HIUPD);
+        console.log(JSON.stringify(seg));
         return ['anton'];
     }
 
