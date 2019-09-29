@@ -55,6 +55,10 @@ export class Dialog extends DialogConfig {
      */
     public tanMethods: TanMethod[] = [];
     /**
+     * A list of allowed transactions (Geschäftsvorfälle) as configured by the server.
+     */
+    public transactionTypes: string[] = [];
+    /**
      * The server will only accept a certain version for the HISALS segment.
      * This version defaults to the latest version (6).
      * The server's maximum supported version can be parsed from the initial requests and is stored here.
@@ -107,6 +111,7 @@ export class Dialog extends DialogConfig {
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
         this.hicdbVersion = response.segmentMaxVersion(HICDBS);
         this.tanMethods = response.supportedTanMethods;
+        this.transactionTypes = response.transactionTypes;
         this.painFormats = response.painFormats;
         const hiupd = response.findSegments(HIUPD);
         this.hiupd = hiupd;

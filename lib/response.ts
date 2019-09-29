@@ -139,6 +139,15 @@ export class Response {
     }
 
     /**
+     * Will assemble a list of all supported transactions.
+     */
+    public get transactionTypes(): string[] {
+        const hirms = this.findSegments(HIRMS);
+        console.log(JSON.stringify(hirms));
+        return ['anton'];
+    }
+
+    /**
      * Will assemble a list of all supported SEPA pain-message formats.
      */
     public get painFormats(): string[] {
