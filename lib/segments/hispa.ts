@@ -1,9 +1,9 @@
 import { SegmentClass } from "./segment";
-import { SEPAAccountHispa } from "../types";
+import { SEPAAccount } from "../types";
 
 export class HISPAProps {
     public segNo: number;
-    public accounts: SEPAAccountHispa[];
+    public accounts: SEPAAccount[];
 }
 
 /**

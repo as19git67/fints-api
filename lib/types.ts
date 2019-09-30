@@ -141,9 +141,6 @@ export interface SEPAAccount {
    * The account's internal account number used together with the BLZ before SEPA.
    */
   accountNumber: string;
-
-  transactionTypes: string[];
-
   /**
    * An optional sub account identification.
    */
@@ -161,22 +158,15 @@ export interface SEPAAccount {
 
 }
 
-export interface SEPAAccountHispa {
-  iban: string;
-  bic: string;
-  accountNumber: string;
-  subAccount?: string;
-  blz: string;
-  accountOwnerName?: string;
-  accountName?: string;
-  limitValue?: number;
+export interface SEPAAccountEx {
+  account: SEPAAccount;
+  transactionTypes: string[];
 }
 
 /**
  * A single SEPA account.
  */
 export interface SEPAAccountHiupd {
-
   accountNumber: string;
   iban: string;
   accountOwnerName1: string;

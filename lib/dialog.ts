@@ -61,7 +61,7 @@ export class Dialog extends DialogConfig {
   /**
    * A list of SEPA accounts
    */
-  public accounts: SEPAAccount[] = [];
+  public accounts: SEPAAccountHiupd[] = [];
   /**
    * The server will only accept a certain version for the HISALS segment.
    * This version defaults to the latest version (6).
@@ -127,7 +127,7 @@ export class Dialog extends DialogConfig {
       new HKTAN({segNo: 5, version: 6, process: "4"}),];
     const response = await this.send(new Request({blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods}),);
     this.dialogId = response.dialogId;
-    this.accountsHiupd = response.accounts;
+    this.accountsHiupd = response.accountsHiupd;
   }
 
   /**

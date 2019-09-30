@@ -157,7 +157,7 @@ export class Response {
   /**
    * Will assemble a list of all accounts, where each includes a list of supported transaction types.
    */
-  public get accounts(): SEPAAccountHiupd[] {
+  public get accountsHiupd(): SEPAAccountHiupd[] {
     const hiupdSegments = this.findSegments(HIUPD);
     let accounts: SEPAAccountHiupd[] = [];
     hiupdSegments.forEach(seg => {

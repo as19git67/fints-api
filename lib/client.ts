@@ -4,7 +4,7 @@ import {Parse} from "./parse";
 import {Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN} from "./segments";
 import {Request} from "./request";
 import {Response} from "./response";
-import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd} from "./types";
+import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd, SEPAAccountEx} from "./types";
 import {read} from "mt940-js";
 import {is86Structured, parse86Structured} from "./mt940-86-structured";
 
@@ -28,7 +28,7 @@ export abstract class Client {
    *
    * @return An array of all SEPA accounts.
    */
-  public async accounts(): Promise<SEPAAccount[]> {
+  public async accounts(): Promise<SEPAAccountEx[]> {
     const dialog = this.createDialog();
     await dialog.sync();
     await dialog.init();
@@ -47,18 +47,11 @@ export abstract class Client {
       }
     });
 
-    let accounts: SEPAAccount[] = [];
+    let accounts: SEPAAccountEx[] = [];
     hispa.accounts.forEach(account => {
-      let accountHiupd = dialog.accounts.find(x => x.accountNumber == account.accountNumber);
+      let accountHiupd: SEPAAccountHiupd = dialog.accountsHiupd.find(x => x.accountNumber == account.accountNumber);
       accounts.push({
-        accountNumber: account.accountNumber,
-        accountName: account.accountName,
-        iban: account.iban,
-        blz: account.blz,
-        accountOwnerName: account.accountOwnerName,
-        subAccount: account.subAccount,
-        bic: account.bic,
-        limitValue: account.limitValue,
+        account: account,
         transactionTypes: accountHiupd.transactionTypes
       });
     });
