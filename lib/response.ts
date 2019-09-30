@@ -30,6 +30,10 @@ export class Response {
      * @return An array of all matching segments. Can be empty if no segements matched the specified type.
      */
     public findSegments<T extends Segment<any>>(segmentClass: Constructable<T>): T[] {
+        this.segmentStrings.forEach(str => {
+            console.log (str[0][0] );
+        });
+
         const matchingStrings = this.segmentStrings.filter(str => str[0][0] === segmentClass.name);
         return matchingStrings.map(segmentString => {
             const segment = new segmentClass(segmentString);
