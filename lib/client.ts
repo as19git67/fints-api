@@ -4,7 +4,7 @@ import { Parse } from "./parse";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
-import { SEPAAccount, Statement, Balance, StandingOrder } from "./types";
+import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd} from "./types";
 import { read } from "mt940-js";
 import { is86Structured, parse86Structured } from "./mt940-86-structured";
 
@@ -27,7 +27,7 @@ export abstract class Client {
      *
      * @return An array of all SEPA accounts.
      */
-    public async accounts(): Promise<SEPAAccount[]> {
+    public async accounts(): Promise<SEPAAccountHiupd[]> {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
@@ -35,20 +35,8 @@ export abstract class Client {
             new HKSPA({ segNo: 3 }),
         ]));
         await dialog.end();
-        const hispa = response.findSegment(HISPA);
 
-        hispa.accounts.map((account) => {
-            const hiupdAccount = dialog.hiupd.filter((element) => {
-                return (element.account.iban === account.iban);
-            });
-            if (hiupdAccount.length > 0) {
-                account.accountOwnerName = hiupdAccount[0].account.accountOwnerName1;
-                account.accountName = hiupdAccount[0].account.accountName;
-                account.limitValue = Parse.num(hiupdAccount[0].account.limitValue);
-            }
-        });
-
-        return hispa.accounts;
+        return dialog.accounts;
     }
 
     /**
