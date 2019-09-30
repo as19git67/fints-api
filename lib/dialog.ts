@@ -111,7 +111,6 @@ export class Dialog extends DialogConfig {
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
         this.hicdbVersion = response.segmentMaxVersion(HICDBS);
         this.tanMethods = response.supportedTanMethods;
-        this.transactionTypes = response.transactionTypes;
         this.painFormats = response.painFormats;
         const hiupd = response.findSegments(HIUPD);
         this.hiupd = hiupd;
@@ -133,6 +132,7 @@ export class Dialog extends DialogConfig {
             new Request({ blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods }),
         );
         this.dialogId = response.dialogId;
+        this.transactionTypes = response.transactionTypes;
     }
 
     /**
