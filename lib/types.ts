@@ -168,6 +168,7 @@ export interface SEPAAccountHiupd {
     accountOwnerName1: string;
     accountName: string;
     limitValue: string;
+    transactionTypes: string[];
 }
 
 /**

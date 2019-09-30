@@ -30,17 +30,17 @@ export class Response {
    * @return An array of all matching segments. Can be empty if no segements matched the specified type.
    */
   public findSegments<T extends Segment<any>>(segmentClass: Constructable<T>): T[] {
-    console.log(`Find Segment ${segmentClass.name}`);
-    let s = "";
-    let first = true;
-    this.segmentStrings.forEach(str => {
-      if (!first) {
-        s += ', ';
-      }
-      s += str[0][0];
-      first = false;
-    });
-    console.log(`Segments: ${s}`);
+    // console.log(`Find Segment ${segmentClass.name}`);
+    // let s = "";
+    // let first = true;
+    // this.segmentStrings.forEach(str => {
+    //   if (!first) {
+    //     s += ', ';
+    //   }
+    //   s += str[0][0];
+    //   first = false;
+    // });
+    // console.log(`Segments: ${s}`);
 
     const matchingStrings = this.segmentStrings.filter(str => str[0][0] === segmentClass.name);
     return matchingStrings.map(segmentString => {
@@ -158,8 +158,8 @@ export class Response {
    * Will assemble a list of all supported transactions.
    */
   public get transactionTypes(): string[] {
-    const seg = this.findSegment(HIUPD);
-    console.log(JSON.stringify(seg));
+    const segs = this.findSegments(HIUPD);
+    console.log(JSON.stringify(segs));
     return ['anton'];
   }
 
