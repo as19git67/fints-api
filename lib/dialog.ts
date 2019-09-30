@@ -1,4 +1,4 @@
-import {Connection, SEPAAccountHiupd} from "./types";
+import {Connection, SEPAAccount, SEPAAccountHiupd} from "./types";
 import {HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD} from "./segments";
 import {Request} from "./request";
 import {TanMethod} from "./tan-method";
@@ -55,9 +55,13 @@ export class Dialog extends DialogConfig {
    */
   public tanMethods: TanMethod[] = [];
   /**
-   * A list of allowed transactions (Geschäftsvorfälle) as configured by the server.
+   * A list of accounts and each has transactionTypes (Geschäftsvorfälle) as configured by the server.
    */
-  public accounts: SEPAAccountHiupd[] = [];
+  public accountsHiupd: SEPAAccountHiupd[] = [];
+  /**
+   * A list of SEPA accounts
+   */
+  public accounts: SEPAAccount[] = [];
   /**
    * The server will only accept a certain version for the HISALS segment.
    * This version defaults to the latest version (6).
@@ -123,7 +127,7 @@ export class Dialog extends DialogConfig {
       new HKTAN({segNo: 5, version: 6, process: "4"}),];
     const response = await this.send(new Request({blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods}),);
     this.dialogId = response.dialogId;
-    this.accounts = response.accounts;
+    this.accountsHiupd = response.accounts;
   }
 
   /**
