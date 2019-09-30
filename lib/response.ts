@@ -1,5 +1,5 @@
 import {Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HNVSD, HISPAS, HIUPD} from "./segments";
-import {Constructable} from "./types";
+import {Constructable, SEPAAccountHiupd} from "./types";
 import {ReturnValue} from "./return-value";
 import {Request} from "./request";
 import {parse} from "./utils";
@@ -155,12 +155,15 @@ export class Response {
   }
 
   /**
-   * Will assemble a list of all supported transactions.
+   * Will assemble a list of all accounts, where each includes a list of supported transaction types.
    */
-  public get transactionTypes(): string[] {
-    const segs = this.findSegments(HIUPD);
-    console.log(JSON.stringify(segs));
-    return ['anton'];
+  public get accounts(): SEPAAccountHiupd[] {
+    const hiupdSegments = this.findSegments(HIUPD);
+    let accounts: SEPAAccountHiupd[] = [];
+    hiupdSegments.forEach(seg => {
+      accounts.push(seg.account);
+    });
+    return accounts;
   }
 
   /**
