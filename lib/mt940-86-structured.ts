@@ -115,6 +115,9 @@ export function assemblePaymentReference(references: Section[]): PaymentReferenc
         result.raw += content;
         return result;
       });
+  if (!result.text) {
+    result.text = result.raw;
+  }
   return result;
 }
 
