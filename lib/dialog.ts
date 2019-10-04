@@ -114,7 +114,7 @@ export class Dialog extends DialogConfig {
     this.hicdbVersion = response.segmentMaxVersion(HICDBS);
     this.tanMethods = response.supportedTanMethods;
     // hack: Ing Diba Extrakonto still has iTAN as the only TAN method set and HKTAN must not be sent, because it is reported as unknown transaction type
-    this.useSCA = !this.tanMethods && this.tanMethods.length > 0 && this.tanMethods[0].techId === "iTAN";
+    this.useSCA = !(this.tanMethods && this.tanMethods.length > 0 && this.tanMethods[0].techId === "iTAN");
     this.painFormats = response.painFormats;
     const hiupd = response.findSegments(HIUPD);
     this.hiupd = hiupd;
