@@ -117,13 +117,10 @@ export class Dialog extends DialogConfig {
    * Send the initializing request to the server.
    * The dialog is ready for performing custom requests afterwards.
    */
-  public async init(addHKTAN: boolean) {
+  public async init() {
     const {blz, name, pin, dialogId, msgNo, tanMethods} = this;
 
     let segments: Segment<any>[] = [new HKIDN({segNo: 3, blz, name, systemId: "0"}), new HKVVB({segNo: 4, productId: this.productId, lang: 0})];
-    if (addHKTAN) {
-      segments.push(new HKTAN({segNo: 5, version: 6, process: "4"}));
-    }
     const response = await this.send(new Request({blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods}),);
     this.dialogId = response.dialogId;
     this.accountsHiupd = response.accountsHiupd;
