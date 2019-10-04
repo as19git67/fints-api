@@ -83,6 +83,12 @@ export class Dialog extends DialogConfig {
 
   public hiupd: HIUPD[];
 
+  /**
+   * This value is determined by using the TanMethods and set to false if old iTAN is reported by the bank
+   * (This is a hack for Ing Diba Extrakonto, where still no SCA is possible and HKTAN is reported as unknown transaction type (Geschäftsvorvall))
+   */
+  public useSCA: boolean = true;
+
   constructor(config: DialogConfig) {
     super();
     Object.assign(this, config);
@@ -107,6 +113,8 @@ export class Dialog extends DialogConfig {
     this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
     this.hicdbVersion = response.segmentMaxVersion(HICDBS);
     this.tanMethods = response.supportedTanMethods;
+    // hack: Ing Diba Extrakonto still has iTAN as the only TAN method set and HKTAN must not be sent, because it is reported as unknown transaction type
+    this.useSCA = !this.tanMethods && this.tanMethods.length > 0 && this.tanMethods[0].techId === "iTAN";
     this.painFormats = response.painFormats;
     const hiupd = response.findSegments(HIUPD);
     this.hiupd = hiupd;
@@ -121,6 +129,9 @@ export class Dialog extends DialogConfig {
     const {blz, name, pin, dialogId, msgNo, tanMethods} = this;
 
     let segments: Segment<any>[] = [new HKIDN({segNo: 3, blz, name, systemId: "0"}), new HKVVB({segNo: 4, productId: this.productId, lang: 0})];
+    if (this.useSCA) {
+      segments.push(new HKTAN({segNo: 5, version: 6, process: "4"}));
+    }
     const response = await this.send(new Request({blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods}),);
     this.dialogId = response.dialogId;
     this.accountsHiupd = response.accountsHiupd;
