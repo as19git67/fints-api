@@ -59,10 +59,6 @@ export class Dialog extends DialogConfig {
    */
   public accountsHiupd: SEPAAccountHiupd[] = [];
   /**
-   * A list of SEPA accounts
-   */
-  public accounts: SEPAAccountHiupd[] = [];
-  /**
    * The server will only accept a certain version for the HISALS segment.
    * This version defaults to the latest version (6).
    * The server's maximum supported version can be parsed from the initial requests and is stored here.
@@ -121,10 +117,16 @@ export class Dialog extends DialogConfig {
    * Send the initializing request to the server.
    * The dialog is ready for performing custom requests afterwards.
    */
-  public async init() {
+  public async init(addHKTAN: boolean) {
     const {blz, name, pin, dialogId, msgNo, tanMethods} = this;
-    const segments = [new HKIDN({segNo: 3, blz, name, systemId: "0"}), new HKVVB({segNo: 4, productId: this.productId, lang: 0}),
-      new HKTAN({segNo: 5, version: 6, process: "4"}),];
+
+    let segments;
+    if (addHKTAN) {
+      segments = [new HKIDN({segNo: 3, blz, name, systemId: "0"}),
+        new HKVVB({segNo: 4, productId: this.productId, lang: 0}, new HKTAN({segNo: 5, version: 6, process: "4"}))];
+    } else {
+      segments = [new HKIDN({segNo: 3, blz, name, systemId: "0"}), new HKVVB({segNo: 4, productId: this.productId, lang: 0})];
+    }
     const response = await this.send(new Request({blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods}),);
     this.dialogId = response.dialogId;
     this.accountsHiupd = response.accountsHiupd;

@@ -28,10 +28,10 @@ export abstract class Client {
    *
    * @return An array of all SEPA accounts.
    */
-  public async accounts(): Promise<SEPAAccountEx[]> {
+  public async accounts(addHKTAN: boolean): Promise<SEPAAccountEx[]> {
     const dialog = this.createDialog();
     await dialog.sync();
-    await dialog.init();
+    await dialog.init(addHKTAN);
     const response = await dialog.send(this.createRequest(dialog, [new HKSPA({segNo: 3}),]));
     await dialog.end();
     const hispa = response.findSegment(HISPA);
@@ -68,7 +68,7 @@ export abstract class Client {
   public async balance(account: SEPAAccount): Promise<Balance> {
     const dialog = this.createDialog();
     await dialog.sync();
-    await dialog.init();
+    await dialog.init(true);
     let touchdowns: Map<string, string>;
     let touchdown: string;
     const responses: Response[] = [];
@@ -106,10 +106,10 @@ export abstract class Client {
    *
    * @return A list of all statements in the specified range.
    */
-  public async statements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
+  public async statements(account: SEPAAccount, addHKTAN: boolean, startDate: Date, endDate: Date): Promise<Statement[]> {
     const dialog = this.createDialog();
     await dialog.sync();
-    await dialog.init();
+    await dialog.init(addHKTAN);
     let touchdowns: Map<string, string>;
     let touchdown: string;
     const responses: Response[] = [];
@@ -149,7 +149,7 @@ export abstract class Client {
   public async standingOrders(account: SEPAAccount): Promise<StandingOrder[]> {
     const dialog = this.createDialog();
     await dialog.sync();
-    await dialog.init();
+    await dialog.init(true);
     let touchdowns: Map<string, string>;
     let touchdown: string;
     const responses: Response[] = [];
