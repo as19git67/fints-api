@@ -51,8 +51,7 @@ export abstract class Client {
     hispa.accounts.forEach(account => {
       let accountHiupd: SEPAAccountHiupd = dialog.accountsHiupd.find(x => x.accountNumber == account.accountNumber);
       accounts.push({
-        account: account,
-        transactionTypes: accountHiupd.transactionTypes
+        account: account, transactionTypes: accountHiupd.transactionTypes
       });
     });
     return accounts;
@@ -114,9 +113,11 @@ export abstract class Client {
     let touchdown: string;
     const responses: Response[] = [];
     do {
-      const request = this.createRequest(dialog, [new HKKAZ({
-        segNo: 3, version: dialog.hikazsVersion, account, startDate, endDate, touchdown,
-      }), new HKTAN({segNo: 4, version: 6, process: "4"})]);
+      let segments: Segment<any>[] = [new HKKAZ({segNo: 3, version: dialog.hikazsVersion, account, startDate, endDate, touchdown})];
+      if (addHKTAN) {
+        segments.push(new HKTAN({segNo: 4, version: 6, process: "4"}));
+      }
+      const request = this.createRequest(dialog, segments);
       const response = await dialog.send(request);
       touchdowns = response.getTouchdowns(request);
       touchdown = touchdowns.get("HKKAZ");
