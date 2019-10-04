@@ -109,13 +109,12 @@ export abstract class Client {
     const dialog = this.createDialog();
     await dialog.sync();
     await dialog.init();
-    let addHKTAN = false;
     let touchdowns: Map<string, string>;
     let touchdown: string;
     const responses: Response[] = [];
     do {
       let segments: Segment<any>[] = [new HKKAZ({segNo: 3, version: dialog.hikazsVersion, account, startDate, endDate, touchdown})];
-      if (addHKTAN) {
+      if (dialog.useSCA) {
         segments.push(new HKTAN({segNo: 4, version: 6, process: "4"}));
       }
       const request = this.createRequest(dialog, segments);
