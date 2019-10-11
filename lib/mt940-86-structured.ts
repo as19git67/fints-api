@@ -113,8 +113,12 @@ export function assemblePaymentReference(references: Section[]): PaymentReferenc
           result[lastIdentifiedAttribute] += content;
         }
         result.raw += content;
+        if (content.length < 27) {
+          result.raw = result.raw.trim() + ' ';
+        }
         return result;
       });
+  result.raw = result.raw.trim();
   if (!result.text) {
     result.text = result.raw;
   }
