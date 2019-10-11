@@ -153,7 +153,14 @@ export function parse86Structured(input: string): StructuredDescription {
     } else if (sectionCode === 10) {
       primaNota = currentContent;
     } else if ((sectionCode >= 20 && sectionCode < 30) || (sectionCode >= 60 && sectionCode <= 63)) {
-      references.push({code: sectionCode, content: currentContent});
+      if (currentContent.length <= 27 &&
+          (currentContent.startsWith('ÜBERTRAG') || currentContent.startsWith('LASTSCHRIFT') || currentContent.startsWith('STEUERVERRECHNUNG') ||
+           currentContent.startsWith('WERTPAPIERE') || currentContent.startsWith('KUPON') || currentContent.startsWith('KARTENVERFÜGUNG') ||
+           currentContent.startsWith('KONTOABSCHLUSS') || currentContent.startsWith('KONTOÜBERTRAG'))) {
+        text = currentContent;
+      } else {
+        references.push({code: sectionCode, content: currentContent});
+      }
     } else if (sectionCode === 30) {
       bic = currentContent;
     } else if (sectionCode === 31) {
