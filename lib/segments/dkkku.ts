@@ -18,7 +18,7 @@ export class DKKKU extends SegmentClass(DKKKUProps) {
 
   protected serialize() {
     const {version, account, startDate} = this;
-    const {iban, bic, accountNumber, subAccount, blz} = account;
+    const {accountNumber, subAccount, blz} = account;
     if (![2].includes(version)) {
       throw new Error(`Unsupported DKKKU version ${version}.`);
     }

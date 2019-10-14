@@ -7,6 +7,7 @@ import {Response} from "./response";
 import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd, SEPAAccountEx} from "./types";
 import {read} from "mt940-js";
 import {is86Structured, parse86Structured} from "./mt940-86-structured";
+import {DKKKU} from "./segments/dkkku";
 
 /**
  * An abstract class for communicating with a fints server.
@@ -128,6 +129,38 @@ export abstract class Client {
       result.push(...response.findSegments(HIKAZ));
       return result;
     }, []);
+    const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
+    const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
+    return unprocessedStatements.map(statement => {
+      const transactions = statement.transactions.map(transaction => {
+        // if (!is86Structured(transaction.description)) { return transaction; }
+        const descriptionStructured = parse86Structured(transaction.description);
+        return {...transaction, descriptionStructured};
+      });
+      return {...statement, transactions};
+    });
+  }
+
+  /**
+   * Fetch a list of kredit card statements deserialized from the data transmitted by the fints server.
+   *
+   * @param startDate The start of the range for which the statements should be fetched.
+   *
+   * @return A list of all statements in the specified range.
+   */
+  public async kkstatements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
+    const dialog = this.createDialog();
+    await dialog.sync();
+    await dialog.init();
+    let response: Response;
+    let dkkkuSegments: Segment<any>[] = [new DKKKU({segNo: 3, version: dialog.hikazsVersion, account, startDate})];
+    if (dialog.useSCA) {
+      dkkkuSegments.push(new HKTAN({segNo: 4, version: 6, process: "4"}));
+    }
+    const request = this.createRequest(dialog, dkkkuSegments);
+    response = await dialog.send(request);
+    await dialog.end();
+    const segments: HIKAZ[] = response.findSegments(HIKAZ);
     const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
     const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
     return unprocessedStatements.map(statement => {
