@@ -148,7 +148,7 @@ export abstract class Client {
    *
    * @return A list of all statements in the specified range.
    */
-  public async kkstatements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
+  public async kkstatements(account: SEPAAccount, startDate: Date): Promise<Statement[]> {
     const dialog = this.createDialog();
     await dialog.sync();
     await dialog.init();
