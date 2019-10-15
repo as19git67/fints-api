@@ -28,4 +28,7 @@ export * from "./hnshk";
 export * from "./hnvsd";
 export * from "./hnvsk";
 export * from "./hiupd";
+export * from "./dkkku";
+export * from "./dikku";
+export * from "./dikkus";
 export * from "./segment";

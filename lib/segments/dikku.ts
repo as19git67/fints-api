@@ -1,17 +1,17 @@
 import {SegmentClass} from "./segment";
+import {Parse} from "../parse";
 
-export class HIKAZProps {
+export class DIKKUProps {
   public segNo: number;
   public bookedTransactions: string;
   public pendingTransactions: string;
 }
 
 /**
- * HIKAZ (Kontoumsätze rückmelden/Zeitraum)
- * Section C.2.1.1.1.1
+ * DIKKU (Kreditkartenumsätze)
  */
-export class HIKAZ extends SegmentClass(HIKAZProps) {
-  public type = "HIKAZ";
+export class DIKKU extends SegmentClass(DIKKUProps) {
+  public type = "DIKKU";
 
   protected serialize(): string[][] {
     throw new Error("Not implemented.");

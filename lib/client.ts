@@ -1,7 +1,7 @@
 import "isomorphic-fetch";
 import {Dialog} from "./dialog";
 import {Parse} from "./parse";
-import {Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN} from "./segments";
+import {Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN, DIKKU} from "./segments";
 import {Request} from "./request";
 import {Response} from "./response";
 import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd, SEPAAccountEx} from "./types";
@@ -153,14 +153,14 @@ export abstract class Client {
     await dialog.sync();
     await dialog.init();
     let response: Response;
-    let dkkkuSegments: Segment<any>[] = [new DKKKU({segNo: 3, version: dialog.hikazsVersion, account, startDate})];
+    let dkkkuSegments: Segment<any>[] = [new DKKKU({segNo: 3, version: dialog.dikkuVersion, account, startDate})];
     if (dialog.useSCA) {
       dkkkuSegments.push(new HKTAN({segNo: 4, version: 6, process: "4"}));
     }
     const request = this.createRequest(dialog, dkkkuSegments);
     response = await dialog.send(request);
     await dialog.end();
-    const segments: HIKAZ[] = response.findSegments(HIKAZ);
+    const segments: DIKKU[] = response.findSegments(DIKKU);
     const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
     const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
     return unprocessedStatements.map(statement => {

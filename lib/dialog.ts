@@ -1,5 +1,5 @@
 import {Connection, SEPAAccount, SEPAAccountHiupd} from "./types";
-import {HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD, Segment} from "./segments";
+import {HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, DIKKUS, HICDBS, HIUPD, Segment} from "./segments";
 import {Request} from "./request";
 import {TanMethod} from "./tan-method";
 import {escapeFinTS} from "./utils";
@@ -71,6 +71,12 @@ export class Dialog extends DialogConfig {
    */
   public hikazsVersion = 6;
   /**
+   * The server will only accept a certain version for the HIKAZS segment.
+   * This version defaults to the latest version (6).
+   * The server's maximum supported version can be parsed from the initial requests and is stored here.
+   */
+  public dikkuVersion = 3;
+  /**
    * The server will only accept a certain version for the HICDB segment.
    * This version defaults to the latest version (1).
    * The server's maximum supported version can be parsed from the initial requests and is stored here.
@@ -112,6 +118,7 @@ export class Dialog extends DialogConfig {
     this.hisalsVersion = response.segmentMaxVersion(HISALS);
     this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
     this.hicdbVersion = response.segmentMaxVersion(HICDBS);
+    this.dikkuVersion = response.segmentMaxVersion(DIKKUS);
     this.tanMethods = response.supportedTanMethods;
     // hack: Ing Diba Extrakonto still has iTAN as the only TAN method set and HKTAN must not be sent, because it is reported as unknown transaction type
     this.useSCA = !(this.tanMethods && this.tanMethods.length > 0 && this.tanMethods[0].techId === "iTAN");
