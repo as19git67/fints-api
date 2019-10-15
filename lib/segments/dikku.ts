@@ -19,7 +19,7 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
   }
 
   protected deserialize(input: string[][]) {
-    const [accountNumber, , balanceData, , , transactions] = input;
+    const [accountNumber, , balanceData, , , ...transactions] = input;
     this.transactions = transactions;
     this.accountNumber = accountNumber[0];
     this.balanceData = balanceData;
