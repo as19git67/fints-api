@@ -161,7 +161,7 @@ export abstract class Client {
     response = await dialog.send(request);
     await dialog.end();
     const segments: DIKKU[] = response.findSegments(DIKKU);
-    const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
+    const bookedString = segments.map(segment => segment.transactions || "").join("");
     const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
     return unprocessedStatements.map(statement => {
       const transactions = statement.transactions.map(transaction => {
