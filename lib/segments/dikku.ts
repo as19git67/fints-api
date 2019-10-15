@@ -3,8 +3,9 @@ import {Parse} from "../parse";
 
 export class DIKKUProps {
   public segNo: number;
-  public bookedTransactions: string;
-  public pendingTransactions: string;
+  public accountNumber: string;
+  public balanceData: any;
+  public transactions: any;
 }
 
 /**
@@ -18,12 +19,9 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
   }
 
   protected deserialize(input: string[][]) {
-    const [bookedTransactions, pendingTransactions] = input;
-    if (pendingTransactions && pendingTransactions[0]) {
-      this.pendingTransactions = pendingTransactions[0];
-    }
-    if (bookedTransactions && bookedTransactions[0]) {
-      this.bookedTransactions = bookedTransactions[0];
-    }
+    const [accountNumber, , balanceData, , , transactions] = input;
+    this.transactions = transactions;
+    this.accountNumber = accountNumber[0];
+    this.balanceData = balanceData;
   }
 }
