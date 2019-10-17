@@ -30,8 +30,9 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
       }
       let purpose = purp.join(' ').trim();
       let code: string = purpose.slice(-3);
+      purpose = purpose.substring(0, purpose.length - 3);
       let t: DIKKUTransaction = {
-        valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purpose, currency: currency1, reference: ref
+        valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purpose, currency: currency1, reference: ref, code: code
       };
       return t;
     });

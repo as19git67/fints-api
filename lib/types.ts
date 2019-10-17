@@ -261,6 +261,7 @@ export interface DIKKUTransaction {
   currency: string,
   purpose: string;
   reference: string;
+  code: string;
 }
 
 export interface DIKKUBalance {
