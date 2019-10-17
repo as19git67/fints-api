@@ -28,8 +28,10 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
       if (value1) {
         value = parseFloat(value1.replace(new RegExp('\\.', 'g'), '').replace(new RegExp('\\,'), '.'));
       }
+      let purpose = purp.join(' ').trim();
+      let code: string = purpose.slice(-3);
       let t: DIKKUTransaction = {
-        valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purp.join(' '), currency: currency1, reference: ref
+        valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purpose, currency: currency1, reference: ref
       };
       return t;
     });
@@ -38,6 +40,6 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
     if (balanceData[1]) {
       balanceValue = parseFloat(balanceData[1].replace(new RegExp('\\.', 'g'), '').replace(new RegExp('\\,'), '.'));
     }
-    this.balance = {balanceDate: balanceData[0], value: balanceValue, currency: balanceData[2]};
+    this.balance = {balanceDate: balanceData[3], value: balanceValue, currency: balanceData[2]};
   }
 }
