@@ -32,7 +32,11 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
       let code: string = '';
       if (debitmark1 === 'D') {
         code = purpose.slice(-3);
-        purpose = purpose.substring(0, purpose.length - 3).trim();
+        if (code === parseInt(code).toString()) {
+          purpose = purpose.substring(0, purpose.length - 3).trim();
+        } else {
+          code = '';
+        }
       }
       let t: DIKKUTransaction = {
         valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purpose, currency: currency1, reference: ref, code: code
