@@ -29,8 +29,11 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
         value = parseFloat(value1.replace(new RegExp('\\.', 'g'), '').replace(new RegExp('\\,'), '.'));
       }
       let purpose = purp.join(' ').trim();
-      let code: string = purpose.slice(-3);
-      purpose = purpose.substring(0, purpose.length - 3);
+      let code: string = '';
+      if (debitmark1 === 'D') {
+        code = purpose.slice(-3);
+        purpose = purpose.substring(0, purpose.length - 3).trim();
+      }
       let t: DIKKUTransaction = {
         valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purpose, currency: currency1, reference: ref, code: code
       };
