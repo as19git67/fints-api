@@ -32,13 +32,12 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
     this.transactions = transactions.map(tr => {
       const [an, valueDate, date, unknown1, value2, currency2, debitmark2, unknown2, value1, currency1, debitmark1, ...purp] = tr;
       const [yes, ref] = purp.splice(purp.length - 2, 2);
+      let value: number = 0.0;
+      if (value1) {
+        value = parseFloat(value1.replace(new RegExp('\\.', 'g'), '').replace(new RegExp('\\,'), '.'));
+      }
       let t: DIKKUTransaction = {
-        accountNumber: an,
-        valueDate: valueDate,
-        value: debitmark1 === 'C' ? parseFloat(value1) * -1 : parseFloat(value1),
-        purpose: purp.join(' '),
-        currency: currency1,
-        reference: ref
+        accountNumber: an, valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purp.join(' '), currency: currency1, reference: ref
       };
       return t;
     });
