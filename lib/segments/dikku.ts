@@ -12,6 +12,7 @@ export interface DIKKUTransaction {
   accountNumber: string;
   valueDate: string;
   value: number;
+  currency: string,
   purpose: string;
   reference: string;
 }
@@ -29,10 +30,15 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
   protected deserialize(input: string[][]) {
     const [accountNumber, , balanceData, , , ...transactions] = input;
     this.transactions = transactions.map(tr => {
-      const [an, valueDate, date, unknown1, value2, debitmark2, unknown3, val, debitmark, ...purp] = tr;
+      const [an, valueDate, date, unknown1, value2, currency2, debitmark2, unknown2, value1, currency1, debitmark1, ...purp] = tr;
       const [yes, ref] = purp.splice(purp.length - 2, 2);
       let t: DIKKUTransaction = {
-        accountNumber: an, valueDate: valueDate, value: debitmark === 'N' ? parseFloat(val) * -1 : parseFloat(val), purpose: purp.join(' '), reference: ref
+        accountNumber: an,
+        valueDate: valueDate,
+        value: debitmark1 === 'C' ? parseFloat(value1) * -1 : parseFloat(value1),
+        purpose: purp.join(' '),
+        currency: currency1,
+        reference: ref
       };
       return t;
     });
