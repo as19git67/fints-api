@@ -4,7 +4,7 @@ import {Parse} from "./parse";
 import {Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN, DIKKU} from "./segments";
 import {Request} from "./request";
 import {Response} from "./response";
-import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd, SEPAAccountEx} from "./types";
+import {SEPAAccount, Statement, Balance, StandingOrder, SEPAAccountHiupd, SEPAAccountEx, DIKKUStatement} from "./types";
 import {read} from "mt940-js";
 import {is86Structured, parse86Structured} from "./mt940-86-structured";
 import {DKKKU} from "./segments/dkkku";
@@ -148,7 +148,7 @@ export abstract class Client {
    *
    * @return A list of all statements in the specified range.
    */
-  public async kkstatements(account: SEPAAccount, startDate: Date): Promise<Statement[]> {
+  public async kkstatements(account: SEPAAccount, startDate: Date): Promise<DIKKUStatement> {
     const dialog = this.createDialog();
     await dialog.sync();
     await dialog.init();
@@ -160,17 +160,10 @@ export abstract class Client {
     const request = this.createRequest(dialog, dkkkuSegments);
     response = await dialog.send(request);
     await dialog.end();
-    const segments: DIKKU[] = response.findSegments(DIKKU);
-    const bookedString = segments.map(segment => segment.transactions || "").join("");
-    const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
-    return unprocessedStatements.map(statement => {
-      const transactions = statement.transactions.map(transaction => {
-        // if (!is86Structured(transaction.description)) { return transaction; }
-        const descriptionStructured = parse86Structured(transaction.description);
-        return {...transaction, descriptionStructured};
-      });
-      return {...statement, transactions};
-    });
+
+    const segment: DIKKU = response.findSegment(DIKKU);
+    const statement: DIKKUStatement = {accountNumber: segment.accountNumber, transactions: segment.transactions, balance: segment.balance};
+    return statement;
   }
 
   /**

@@ -255,6 +255,26 @@ export interface Statement extends MT940Statement {
   transactions: Transaction[];
 }
 
+export interface DIKKUTransaction {
+  valueDate: string;
+  value: number;
+  currency: string,
+  purpose: string;
+  reference: string;
+}
+
+export interface DIKKUBalance {
+  balanceDate: string,
+  value: number,
+  currency: string
+}
+
+export interface DIKKUStatement {
+  accountNumber: string;
+  transactions: DIKKUTransaction[],
+  balance: DIKKUBalance
+}
+
 /**
  * Represents the balance for a single SEPA account.
  */

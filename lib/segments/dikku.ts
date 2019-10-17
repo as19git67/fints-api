@@ -1,20 +1,12 @@
+import {DIKKUTransaction, DIKKUBalance} from "../types";
 import {SegmentClass} from "./segment";
 import {Parse} from "../parse";
 
 export class DIKKUProps {
   public segNo: number;
   public accountNumber: string;
-  public balanceData: any;
+  public balance: DIKKUBalance;
   public transactions: DIKKUTransaction[];
-}
-
-export interface DIKKUTransaction {
-  accountNumber: string;
-  valueDate: string;
-  value: number;
-  currency: string,
-  purpose: string;
-  reference: string;
 }
 
 /**
@@ -37,11 +29,15 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
         value = parseFloat(value1.replace(new RegExp('\\.', 'g'), '').replace(new RegExp('\\,'), '.'));
       }
       let t: DIKKUTransaction = {
-        accountNumber: an, valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purp.join(' '), currency: currency1, reference: ref
+        valueDate: valueDate, value: debitmark1 === 'D' ? value * -1 : value, purpose: purp.join(' '), currency: currency1, reference: ref
       };
       return t;
     });
     this.accountNumber = accountNumber[0];
-    this.balanceData = balanceData;
+    let balanceValue: number = 0.0;
+    if (balanceData[1]) {
+      balanceValue = parseFloat(balanceData[1].replace(new RegExp('\\.', 'g'), '').replace(new RegExp('\\,'), '.'));
+    }
+    this.balance = {balanceDate: balanceData[0], value: balanceValue, currency: balanceData[2]};
   }
 }
