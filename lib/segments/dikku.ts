@@ -19,6 +19,14 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
     throw new Error("Not implemented.");
   }
 
+  private pad(num: number, size: number): string {
+    let s: string = num + "";
+    while (s.length < size) {
+      s = "0" + s;
+    }
+    return s;
+  }
+
   protected deserialize(input: string[][]) {
     const [accountNumber, , balanceData, , , ...transactions] = input;
     this.transactions = transactions.map(tr => {
@@ -32,7 +40,7 @@ export class DIKKU extends SegmentClass(DIKKUProps) {
       let code: string = '';
       if (debitmark1 === 'D') {
         code = purpose.slice(-3);
-        if (code === parseInt(code).toString()) {
+        if (code === this.pad(parseInt(code), 3)) {
           purpose = purpose.substring(0, purpose.length - 3).trim();
         } else {
           code = '';
