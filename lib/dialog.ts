@@ -145,7 +145,7 @@ export class Dialog extends DialogConfig {
     const hirms = response.findSegment(HIRMS);
     const returnValue = hirms.returnValues.get('0030');
     if (returnValue) {
-      throw new Error(returnValue.message);
+      throw returnValue;
     }
   }
 
