@@ -1,5 +1,5 @@
 import {Connection, SEPAAccount, SEPAAccountHiupd} from "./types";
-import {HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, DIKKUS, HICDBS, HIUPD, Segment, HISPA} from "./segments";
+import {HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, DIKKUS, HICDBS, HIUPD, Segment, HISPA, HIRMS} from "./segments";
 import {Request} from "./request";
 import {TanMethod} from "./tan-method";
 import {escapeFinTS} from "./utils";
