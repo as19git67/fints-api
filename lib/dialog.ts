@@ -143,6 +143,10 @@ export class Dialog extends DialogConfig {
     this.dialogId = response.dialogId;
     this.accountsHiupd = response.accountsHiupd;
     const hirms = response.findSegment(HIRMS);
+    const returnValue = hirms.returnValues.get('0030');
+    if (returnValue) {
+      throw new Error(returnValue.message);
+    }
   }
 
   /**
