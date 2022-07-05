@@ -129,6 +129,30 @@ tanMethodArgumentMap.set(6, [
     "supportedMediaNumber",
 ]);
 
+tanMethodArgumentMap.set(7, [
+    "securityFunction",
+    "tanProcess",
+    "techId",
+    "zkaId",
+    "zkaVersion",
+    "name",
+    "maxLengthInput",
+    "allowedFormat",
+    "textReturnvalue",
+    "maxLengthReturnvalue",
+    "multiple",
+    "tanTimeDialogAssociation",
+    "cancellable",
+    "smsChargeAccountRequired",
+    "principalAccountRequired",
+    "challengeClassRequired",
+    "challengeStructured",
+    "initializationMode",
+    "descriptionRequired",
+    "hhdUcRequired",
+    "supportedMediaNumber",
+]);
+
 export class TanMethod {
     public allowedFormat?: string;
     public cancellable?: boolean;
